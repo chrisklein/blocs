@@ -9,7 +9,7 @@ gem 'sqlite3'
 gem 'gravatar_image_tag', '1.0.0.pre2'
 gem 'will_paginate', '3.0.pre2'
 gem 'jquery-rails'
-gem "rake-compiler", "~> 0.7.9"
+# gem "rake-compiler", "~> 0.7.9"
 
 
 
@@ -37,6 +37,6 @@ group :test do
   gem 'turn', :require => false
 end
 
-group :production do
-	gem "therubyracer-heroku", "~> 0.8.1.pre3"
-end
+# group :production do
+#	gem "therubyracer-heroku", "~> 0.8.1.pre3"
+# end
