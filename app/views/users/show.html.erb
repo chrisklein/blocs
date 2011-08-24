@@ -1,0 +1,19 @@
+<table class="profile" summary="Profile info">
+	<tr>
+		<td class="main">
+			<h1>
+				<%= gravatar_for @user %>
+				<%= @user.name %>
+			</h1>
+		</td>
+		<td class="sidebar round">
+			<strong>Name</strong> <%= @user.name %><br />
+			<strong>URL</strong> <%= link_to user_path(@user), @user %>
+		</td>		
+	</tr>	
+</table>
+<hr>
+<div id="user-workspace-container">
+	<div id="workspace-resource-container"></div>
+	<div id="blocs-container"></div>
+</div>
