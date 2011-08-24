@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blocs</title>
+  <title><%= title %></title>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
+  <%= render 'layouts/vendor_stylesheets' %>
+  <%= javascript_include_tag "https://www.google.com/jsapi?key=ABQIAAAAnTisv0_H1Y_BffoaXp783hQFNx9bSi5xiek9zfnI4WVu-Pk2TxQjOZSdXZgmy1K-ErV-MO-99XE1Iw" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+	<div class="container">
+		<%= render 'layouts/header' %>
+		<section class="round">
+		<% flash.each do |key, value| %>
+			<div class="flash <%= key %>">
+				<%= value %>
+			</div>	
+		<% end %>
+		<%= yield %>
+		</section>
+		<%= render 'layouts/footer' %>
+		<%= debug(params) if Rails.env.development? %>
+	</div>
 </body>
 </html>
