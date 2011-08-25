@@ -42,15 +42,15 @@ module SessionsHelper
     clear_return_to
   end    
   
-  def clear_return_to
-    session[:return_to] = nil
-  end  
-    
-  def store_location
-    session[:return_to] = request.fullpath
-  end    
-    
   private
+    
+    def clear_return_to
+      session[:return_to] = nil
+    end  
+    
+    def store_location
+      session[:return_to] = request.fullpath
+    end    
   
     def user_from_remember_token
       # '*' unwrapps [user.id, user.salt] and passes to args
