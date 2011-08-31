@@ -1,3 +1,8 @@
+<% content_for :head do %>
+  <script type="text/javascript">
+ </script>
+<% end %>
+
 <h1>Edit User</h1>
 
 <%= form_for(@user) do |f| %>
@@ -11,3 +16,25 @@
 	<%= gravatar_for @user %>
 	<a href="http://gravatar.com/emails" target=_blank>change</a>
 </div>
+
+<div class="google-apis" data-bind="template: 'reservationTemplate'">
+	<h3>Google Services</h3>
+	<hr>
+	<div class="google-contacts">
+		<medium>Authorize Google Contacts: </medium>
+		<a class="authorize-contacts-service" href="#authorize-contacts">Authorize</a>
+	</div>
+	
+	<div class="google-calendars">
+		<medium>Authorize Google Calendar: </medium>
+		<%= link_to_function "Authorize", "initCalendar()", :class => "authorize-calendar-service" %>
+	</div>
+</div>
+
+
+
+
+
+
+
+

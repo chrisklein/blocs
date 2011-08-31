@@ -3,10 +3,11 @@
 <head>
   <title><%= title %></title>
   <%= render 'layouts/vendor_stylesheets' %>
+  <%= render 'layouts/vendor_javascripts'%>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "https://www.google.com/jsapi?key=ABQIAAAAnTisv0_H1Y_BffoaXp783hQFNx9bSi5xiek9zfnI4WVu-Pk2TxQjOZSdXZgmy1K-ErV-MO-99XE1Iw" %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
 <body>
 	<div class="container">
