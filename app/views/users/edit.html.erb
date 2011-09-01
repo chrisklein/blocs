@@ -1,5 +1,8 @@
 <% content_for :head do %>
   <script type="text/javascript">
+	$(function() {
+		User.init('edit')
+	})
  </script>
 <% end %>
 
@@ -17,7 +20,7 @@
 	<a href="http://gravatar.com/emails" target=_blank>change</a>
 </div>
 
-<div class="google-apis" data-bind="template: 'reservationTemplate'">
+<div id="google-apis-edit" class="google-apis" data-bind="template: 'reservationTemplate'">
 	<h3>Google Services</h3>
 	<hr>
 	<div class="google-contacts">

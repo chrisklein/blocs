@@ -8,6 +8,5 @@
 //= require jquery_ujs
 //= require underscore-min
 //= require backbone
+//= require json2
 //= require_tree .
-
-

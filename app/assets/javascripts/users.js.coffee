@@ -1,29 +1,60 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
-
-
 google.load("gdata", "2.x", { packages: ["contacts", "calendar"] });
 
-class GoogleInfo
-	constructor: (scope) ->
-		@scope = scope
-		@has_token = google.accounts.user.checkLogin(scope).length > 0?;	
+@User =
+	GoogleInfos: {}
+	Controllers: {
+		edit: -> new User.EditController()
+	}
+	init: (controller)->
+		this.Controller = this.Controllers[controller]()
+		return this.Controller
 		
-		
-		
-class UserController extends Backbone.Router
-		
-	authorize_contacts	: ->
-		alert(GoogleInfo.has_token)
-		if GoogleInfo.has_token then alert "authorizing contacts"
+
+class GoogleInfo extends Backbone.Model
+	initialize: ->
+		this.has_token = google.accounts.user.checkLogin( this.get('scope') );
 
 
-google.setOnLoadCallback( create_googleInfo() )
+class GoogleInfos extends Backbone.Collection
+	model: GoogleInfo
 
-create_googleInfo = ->
-	@GoogleInfo = GoogleInfo('https://www.google.com/m8/feeds') 
+
+generate_google_infos = ->
+	User.GoogleInfos = new GoogleInfos([
+		{ scope: 'https://www.google.com/m8/feeds', service: 'Contact' },
+		{ scope: 'https://www.google.com/m8/feeds', service: 'Calendar' }
+	])
+
 	
-@UserController = new UserController()
-Backbone.history.start();
+test_infos = ->
+	alert ( User.GoogleInfos.at(0).get('scope') )
+	alert ( User.Controller.test  )
+
+
+create_googleInfo_settings = ->
+	generate_google_infos()
+	test_infos()
+	#This is where we render
+	
+
+class GoogleServicesView extends Backbone.View
+	el: $("#google-apis-edit")
+
+	events:
+		"mouseenter el"  : "mouseEnter"
+		"mouseleave el"  : "mouseLeave"
+		
+	mouseEnter : ->
+		alert 'anything'
+		
+	mouseLeave : ->
+		alert 'leaving'	
+
+
+class User.EditController extends Backbone.Router
+	initialize: -> 
+		google.setOnLoadCallback( do -> create_googleInfo_settings )
+	test: 'test stuff'	
