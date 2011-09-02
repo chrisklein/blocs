@@ -40,18 +40,19 @@ create_googleInfo_settings = ->
 	#This is where we render
 	
 
+class GoogleServiceView extends Backbone.View
+	tagName:    'div'
+	className:  'google-service-wrapper'
+	markup: '<label>${label_text} ${service}</label><a>${link_text}</a>'
+	
+	render: ->
+		template = $.template( this.markup )
+
+
+
 class GoogleServicesView extends Backbone.View
 	el: $("#google-apis-edit")
 
-	events:
-		"mouseenter el"  : "mouseEnter"
-		"mouseleave el"  : "mouseLeave"
-		
-	mouseEnter : ->
-		alert 'anything'
-		
-	mouseLeave : ->
-		alert 'leaving'	
 
 
 class User.EditController extends Backbone.Router
