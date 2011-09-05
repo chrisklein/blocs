@@ -1,9 +1,9 @@
-<% content_for :head do %>
-  <script type="text/javascript">
-	$(function() {
-		User.init('edit')
-	})
- </script>
+<% content_for :head do %>	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			User.init('edit')
+		});
+	</script>
 <% end %>
 
 <h1>Edit User</h1>
@@ -23,21 +23,9 @@
 <div id="google-apis-edit" class="google-apis" data-bind="template: 'reservationTemplate'">
 	<h3>Google Services</h3>
 	<hr>
-	<div class="google-contacts">
-		<medium>Authorize Google Contacts: </medium>
-		<a class="authorize-contacts-service" href="#authorize-contacts">Authorize</a>
-	</div>
-	
-	<div class="google-calendars">
-		<medium>Authorize Google Calendar: </medium>
-		<%= link_to_function "Authorize", "initCalendar()", :class => "authorize-calendar-service" %>
-	</div>
+	<script id="googleAuthTmpl" type="text/x-jquery-tmpl">
+			<label>${ $item.label_text }</label><a data-cid='${cid}' class='${ $item.link_action }'>${ $item.link_text }</a>
+	</script>
+
 </div>
-
-
-
-
-
-
-
 
