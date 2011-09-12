@@ -1,8 +1,12 @@
 <% content_for :head do %>	
 	<script type="text/javascript">
-		$(document).ready(function(){
-			User.init('edit')
-		});
+		google.setOnLoadCallback(create_edit_user)
+		
+		function create_edit_user(){
+			$(document).ready(function(){
+				User.init('edit')
+			});
+		}
 	</script>
 <% end %>
 

@@ -195,11 +195,10 @@ describe UsersController do
                                          :content => "change")
     end  
     
-  #     it "should have an import google contacts div" do
-  #       get :edit, :id => @user
-  #       response.should have_selector('div', :class => "google-apis")
-  #     end  
-  #     
+    it "should have an import google contacts div" do
+       get :edit, :id => @user
+       response.should have_selector('div', :class => "google-apis")
+    end    
   end  
   #   
   #   # I'm not 100% sure this is the right action yet

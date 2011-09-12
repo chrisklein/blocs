@@ -1,3 +1,15 @@
+<% content_for :head do %>	
+	<script type="text/javascript">
+		google.setOnLoadCallback(create_show_user)
+	
+		function create_show_user(){
+			$(document).ready(function(){
+				User.init('show')
+			});
+		}
+	</script>
+<% end %>
+
 <table class="profile" summary="Profile info">
 	<tr>
 		<td class="main">
@@ -14,6 +26,10 @@
 </table>
 <hr>
 <div id="user-workspace-container">
-	<div id="workspace-resource-container"></div>
+	<div id="workspace-resource-container">
+		<script id="blocTmpl" type="text/x-jquery-tmpl">
+				<label>Test Label</label>
+		</script>
+	</div>
 	<div id="blocs-container"></div>
 </div>

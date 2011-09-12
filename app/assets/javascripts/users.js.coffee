@@ -7,16 +7,17 @@ google.load("gdata", "2.x", { packages: ["contacts", "calendar"] });
 	GoogleInfos: {}
 	Controllers: 
 		edit: -> new User.EditController()
+		show: -> new User.ShowController()
 
 	init: (controller)->
 		this.Controller = this.Controllers[controller]()
+		Backbone.history.start()
 		return this.Controller
 		
 
 class GoogleInfo extends Backbone.Model
 	initialize: ->
 		@token = google.accounts.user.checkLogin( this.get('scope') );
-		#@has_token = 'string_name'
 	
 	# Convenience method for refreshing google token in Model
 	refresh_token: ->
@@ -33,15 +34,6 @@ generate_google_infos = ->
 		{ scope: 'https://www.google.com/calendar/feeds', service: 'Calendar' }
 	])		
 
-create_googleInfo_settings = ->
-	generate_google_infos()
-	googleServiceView = new GoogleServicesView
-		child_view: GoogleServiceView
-		collection: User.GoogleInfos
-		wrapper: $('#google-apis-edit')
-		tagName: 'div'
-	googleServiceView.render()
-	
 
 class GoogleServiceView extends Backbone.View
 	tagName:    'div'
@@ -110,24 +102,95 @@ class GoogleServicesView extends Backbone.View
 	render: ->
 		this_view = this
 		
-		$(this.el).fadeOut 'fast', ->
+		$(this.el)
+			.detach()
+			.fadeOut 'fast', ->
 			
-			$(this_view.el).empty()
+				$(this_view.el).empty()
 			
-			_.each this_view.auth_service_views, (sV)->	
-				$(this_view.el).append sV.render().el
+				_.each this_view.auth_service_views, (sV)->	
+					$(this_view.el).append sV.render().el
 			
-			$(this_view.el)
-				.appendTo(this_view.wrapper)
-				.fadeIn('fast')
+				$(this_view.el)
+					.appendTo(this_view.wrapper)
+					.fadeIn('fast')
 			
 		return this	
 	
 
+class _BlocView extends Backbone.View	
+	tagName: 'div'
+	
+	render: ->
+		$(this.el).empty()
+		
+		add_info = this.generate_additional_info()
+		
+		template = $.template('#blocTmpl')
+					
+		$.tmpl(template, this.model,
+			add_info
+		).appendTo(this.el)			
+		
+		return this
+		
+class BlocViews extends Backbone.View
+	
+	initialize: (options)->
+		this_view = this
+		@wrapper = options.wrapper
+		@child_view = options.child_view
+		@bloc_views = []
+		
+		this.options.collection.each (bloc)-> #bloc is the model being passed around
+			this_view.bloc_views.push( new this_view.child_view({
+				model: bloc
+				className: "should-be-associated-with-event"
+			}))
+			
+	render: ->
+		this_view = this
+		
+		$(this.el)
+			.detach()
+			.fadeOut 'fast', ->
+			
+				$(this_view.el).empty()
+			
+				_.each this_view.bloc_views, (bV)->
+					$(this_view.el).append bV.render().el
+				
+				$(this_view.el)
+					.appendTo(this_view.wrapper)
+					.fadeIn('fast')
+				
+		return this		
+	
+
 class User.EditController extends Backbone.Router
 	initialize: -> 
-		google.setOnLoadCallback do -> create_googleInfo_settings
+		generate_google_infos()
+		
+	routes:
+		"" : "render_auth_views"
+		
+	render_auth_views: ->		
+		googleServiceView = new GoogleServicesView
+			child_view: GoogleServiceView
+			collection: User.GoogleInfos
+			wrapper: $('#google-apis-edit')
+			tagName: 'div'
+		googleServiceView.render()
 	
 	
-	
+class User.ShowController extends Backbone.Router
+	initialize: ->
+		generate_google_infos()
+		
+	routes:
+		"" : "render_blocs"
+		
+	render_blocs: ->
+		alert "rendering"	
+			
 	
