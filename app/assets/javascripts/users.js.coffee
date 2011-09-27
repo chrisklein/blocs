@@ -192,5 +192,11 @@ class User.ShowController extends Backbone.Router
 		
 	render_blocs: ->
 		alert "rendering"	
+		blocsView = new BlocViews
+			child_view: _BlocView
+			collection: User.BlocInfos
+			wrapper: ('#blocs-sidebar-container')
+			tagName: 'div'
+		blocsView.render()	
 			
 	
