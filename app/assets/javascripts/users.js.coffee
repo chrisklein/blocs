@@ -5,6 +5,9 @@ google.load("gdata", "2.x", { packages: ["contacts", "calendar"] });
 
 @User =
 	GoogleInfos: {}
+	BlocInfos: {}
+	GdataServices:
+		calendarService: null
 	Controllers: 
 		edit: -> new User.EditController()
 		show: -> new User.ShowController()
@@ -32,7 +35,7 @@ generate_google_infos = ->
 	User.GoogleInfos = new GoogleInfos([
 		{ scope: 'https://www.google.com/m8/feeds', service: 'Contacts' },
 		{ scope: 'https://www.google.com/calendar/feeds', service: 'Calendar' }
-	])		
+		])		
 
 
 class GoogleServiceView extends Backbone.View
@@ -73,17 +76,18 @@ class GoogleServiceView extends Backbone.View
 		}	
 		
 	link_event: ->
-		if _.isEmpty this.model.token then this.login_to_service() else this.logout_of_service()
-	
+		if _.isEmpty this.model.token then this.login_to_service() else this.logout_of_service()	
 			
 	login_to_service: ->
-		#contactsService = new google.gdata.contacts.ContactsService('blocks');
+		
+		#contactsService = new google.gdata.contacts.ContactsService('blocs');
 		google.accounts.user.login( this.model.get('scope') );
 		
 	logout_of_service: ->	
 		google.accounts.user.logout()	
 		this.model.refresh_token()
 		this.model.change()
+
 
 class GoogleServicesView extends Backbone.View
 	
@@ -116,6 +120,24 @@ class GoogleServicesView extends Backbone.View
 					.fadeIn('fast')
 			
 		return this	
+
+#	
+# Bloc infos and views 
+#
+	
+class BlocInfo extends Backbone.Model
+	initialize: ->
+		# code	
+
+class BlocInfos extends Backbone.Collection
+	model: BlocInfo	
+
+
+generate_bloc_infos = ->
+	User.BlocInfos = new BlocInfos([ 
+		{ 'test' : 'test' }
+		{ 'best' : 'best' } 
+		])
 	
 
 class _BlocView extends Backbone.View	
@@ -124,15 +146,12 @@ class _BlocView extends Backbone.View
 	render: ->
 		$(this.el).empty()
 		
-		add_info = this.generate_additional_info()
-		
 		template = $.template('#blocTmpl')
 					
-		$.tmpl(template, this.model,
-			add_info
-		).appendTo(this.el)			
+		$.tmpl(template, this.model).appendTo(this.el)			
 		
 		return this
+				
 		
 class BlocViews extends Backbone.View
 	
@@ -142,11 +161,17 @@ class BlocViews extends Backbone.View
 		@child_view = options.child_view
 		@bloc_views = []
 		
+		cal_info = User.GoogleInfos.find (info)->
+			return info.get("service") == "Calendar" 
+		
+		# checking login token for calendar service.
+		if !_.isEmpty cal_info.token then this.login_to_service()
+		
 		this.options.collection.each (bloc)-> #bloc is the model being passed around
 			this_view.bloc_views.push( new this_view.child_view({
 				model: bloc
 				className: "should-be-associated-with-event"
-			}))
+			}))	
 			
 	render: ->
 		this_view = this
@@ -166,7 +191,20 @@ class BlocViews extends Backbone.View
 				
 		return this		
 	
-
+	login_to_service: ->
+		User.GdataServices.calendarService = new google.gdata.calendar.CalendarService 'blocs-calendar-0.1'
+	
+		feedUri = 'https://www.google.com/calendar/feeds/default/allcalendars/full'
+		callback = (result)->
+			entries = result.feed.entry
+			_.each entries, (entry)->
+				alert entry.getTitle().getText()
+				
+		User.GdataServices.calendarService.getAllCalendarsFeed( feedUri, callback )
+		
+#	
+# User Controllers
+#
 class User.EditController extends Backbone.Router
 	initialize: -> 
 		generate_google_infos()
@@ -186,16 +224,16 @@ class User.EditController extends Backbone.Router
 class User.ShowController extends Backbone.Router
 	initialize: ->
 		generate_google_infos()
+		generate_bloc_infos()
 		
 	routes:
 		"" : "render_blocs"
 		
 	render_blocs: ->
-		alert "rendering"	
 		blocsView = new BlocViews
 			child_view: _BlocView
 			collection: User.BlocInfos
-			wrapper: ('#blocs-sidebar-container')
+			wrapper: $('#blocs-sidebar-container')
 			tagName: 'div'
 		blocsView.render()	
 			
