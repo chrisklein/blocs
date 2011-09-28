@@ -138,8 +138,14 @@ generate_bloc_infos = ->
 		{ 'test' : 'test' }
 		{ 'best' : 'best' } 
 		])
-	
 
+class BlocCalSignupView extends Backbone.View
+	tagName: 'div'
+	
+	render: ->
+		#code
+	
+		
 class _BlocView extends Backbone.View	
 	tagName: 'div'
 	
@@ -154,18 +160,13 @@ class _BlocView extends Backbone.View
 				
 		
 class BlocViews extends Backbone.View
-	
+	className: 'blocs-syndicate-container'
+		
 	initialize: (options)->
 		this_view = this
 		@wrapper = options.wrapper
 		@child_view = options.child_view
 		@bloc_views = []
-		
-		cal_info = User.GoogleInfos.find (info)->
-			return info.get("service") == "Calendar" 
-		
-		# checking login token for calendar service.
-		if !_.isEmpty cal_info.token then this.login_to_service()
 		
 		this.options.collection.each (bloc)-> #bloc is the model being passed around
 			this_view.bloc_views.push( new this_view.child_view({
@@ -173,34 +174,26 @@ class BlocViews extends Backbone.View
 				className: "should-be-associated-with-event"
 			}))	
 			
-	render: ->
-		this_view = this
-		
+	render: =>
 		$(this.el)
 			.detach()
-			.fadeOut 'fast', ->
+			.fadeOut 'fast', =>
 			
-				$(this_view.el).empty()
-			
-				_.each this_view.bloc_views, (bV)->
-					$(this_view.el).append bV.render().el
+				$(this.el).empty()
 				
-				$(this_view.el)
-					.appendTo(this_view.wrapper)
+				this.generate_el_content()
+				
+				$(this.el)
+					.appendTo(this.wrapper)
 					.fadeIn('fast')
 				
-		return this		
+		return this
 	
-	login_to_service: ->
-		User.GdataServices.calendarService = new google.gdata.calendar.CalendarService 'blocs-calendar-0.1'
+	generate_el_content: =>
+		_.each this.bloc_views, (bV)=>
+			$(this.el).append bV.render().el
+			
 	
-		feedUri = 'https://www.google.com/calendar/feeds/default/allcalendars/full'
-		callback = (result)->
-			entries = result.feed.entry
-			_.each entries, (entry)->
-				alert entry.getTitle().getText()
-				
-		User.GdataServices.calendarService.getAllCalendarsFeed( feedUri, callback )
 		
 #	
 # User Controllers
@@ -224,17 +217,48 @@ class User.EditController extends Backbone.Router
 class User.ShowController extends Backbone.Router
 	initialize: ->
 		generate_google_infos()
-		generate_bloc_infos()
+		
+		cal_info = User.GoogleInfos.find (info)->
+			return info.get("service") == "Calendar" 
+		
+		# checking login token for calendar service.
+		if !_.isEmpty cal_info.token then this.login_to_service()
 		
 	routes:
-		"" : "render_blocs"
+		"" : "test_blocs"
 		
+	test_blocs: ->
+		alert 'testing blocs'	
+	
 	render_blocs: ->
+		generate_bloc_infos()
 		blocsView = new BlocViews
 			child_view: _BlocView
 			collection: User.BlocInfos
 			wrapper: $('#blocs-sidebar-container')
 			tagName: 'div'
-		blocsView.render()	
+		blocsView.render()
+	
+	render_blocs_cal_signup: ->
+		alert 'rendering blocs signup'
+	
+	login_to_service: ->
+		this_controller = this
+		User.GdataServices.calendarService = new google.gdata.calendar.CalendarService 'blocs-calendar-0.1'
+
+		feedUri = 'https://www.google.com/calendar/feeds/default/allcalendars/full'
+		
+		# fat arrow seems to work for 'this' below.
+		callback = (result)=>
+			entries = result.feed.entry
+
+			blocs_cal = _.detect entries, (entry)->
+				entry.getTitle().getText() == 'Gino'
+
+			if _.isUndefined(blocs_cal) then this.render_blocs_cal_signup() else this.render_blocs()
+
+		User.GdataServices.calendarService.getAllCalendarsFeed( feedUri, callback )
+		
+
 			
 	
