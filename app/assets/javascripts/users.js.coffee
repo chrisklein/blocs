@@ -141,10 +141,37 @@ generate_bloc_infos = ->
 
 class BlocCalSignupView extends Backbone.View
 	tagName: 'div'
+	className: 'signup-wrapper'
 	
-	render: ->
-		#code
+	initialize: (options)->
+		@markup = "<a>Add Blocs Calendar</a>"
+		@wrapper = options.wrapper	
+		
+	events:
+		'click a': 'link_event'	
+		
+	render: ->	
+		$(this.el).empty()
+		$(this.el).append(this.markup).appendTo(this.wrapper)
+		
+		return this
+		
+	link_event: ->
+		# code to add calendar
+		feedUri = 'https://www.google.com/calendar/feeds/default/owncalendars/full'
 	
+		calendar = new google.gdata.calendar.CalendarEntry()
+		calendar.setTitle('Blocs')
+		#cal_hidden = new google.gdata.calendar.HiddenProperty()
+		#calendar.setHidden(calendar)
+		
+		callback = (result)=>
+			alert 'calendar created.  check it out'
+			
+		handleError = (e)=>
+			alert 'anything'	
+		
+		User.GdataServices.calendarService.insertEntry(feedUri, calendar, callback, handleError, google.gdata.calendar.CalendarEntry)
 		
 class _BlocView extends Backbone.View	
 	tagName: 'div'
@@ -215,8 +242,11 @@ class User.EditController extends Backbone.Router
 	
 	
 class User.ShowController extends Backbone.Router
+	
 	initialize: ->
 		generate_google_infos()
+		@blocsView = null
+		@sidebarWrapper = $('#blocs-sidebar-container')
 		
 		cal_info = User.GoogleInfos.find (info)->
 			return info.get("service") == "Calendar" 
@@ -225,10 +255,10 @@ class User.ShowController extends Backbone.Router
 		if !_.isEmpty cal_info.token then this.login_to_service()
 		
 	routes:
-		"" : "test_blocs"
+		"" : "root"
 		
-	test_blocs: ->
-		alert 'testing blocs'	
+	root: ->
+		# code	
 	
 	render_blocs: ->
 		generate_bloc_infos()
@@ -237,23 +267,25 @@ class User.ShowController extends Backbone.Router
 			collection: User.BlocInfos
 			wrapper: $('#blocs-sidebar-container')
 			tagName: 'div'
+		this.sidebarWrapper.empty()
 		blocsView.render()
 	
 	render_blocs_cal_signup: ->
-		alert 'rendering blocs signup'
+		blocCalSignup = new BlocCalSignupView
+			wrapper: $('#blocs-sidebar-container')
+		this.sidebarWrapper.empty()
+		blocCalSignup.render()
 	
 	login_to_service: ->
-		this_controller = this
 		User.GdataServices.calendarService = new google.gdata.calendar.CalendarService 'blocs-calendar-0.1'
 
 		feedUri = 'https://www.google.com/calendar/feeds/default/allcalendars/full'
 		
-		# fat arrow seems to work for 'this' below.
 		callback = (result)=>
 			entries = result.feed.entry
 
 			blocs_cal = _.detect entries, (entry)->
-				entry.getTitle().getText() == 'Gino'
+				entry.getTitle().getText() == 'Blocs'
 
 			if _.isUndefined(blocs_cal) then this.render_blocs_cal_signup() else this.render_blocs()
 
