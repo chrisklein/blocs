@@ -1,8 +1,8 @@
 <% content_for :head do %>	
 	<script type="text/javascript">
-		google.setOnLoadCallback(create_show_user)
+		google.setOnLoadCallback(show_user)
 	
-		function create_show_user(){
+		function show_user(){
 			$(document).ready(function(){
 				User.init('show')
 			});
