@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   attr_accessor   :password #attr_accessor only applies to models in memory.
   attr_accessible :name, :email, :password, :password_confirmation
   
+  has_many :blocs, :dependent => :destroy
+  
   email_regex = /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i
   
   validates :name,     :presence     => true,

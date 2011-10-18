@@ -8,3 +8,8 @@ end
 Factory.sequence :email do |n|
   "person-#{n}@example.org"
 end
+
+Factory.define :bloc do |bloc|
+  bloc.content "Foo bar"
+  bloc.association :user
+end  

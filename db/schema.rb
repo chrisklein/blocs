@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110825054645) do
+ActiveRecord::Schema.define(:version => 20111017232853) do
+
+  create_table "blocs", :force => true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blocs", ["user_id"], :name => "index_blocs_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

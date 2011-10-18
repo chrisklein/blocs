@@ -185,5 +185,31 @@ describe User do
     end
   end  
   
+  describe "blocs associations" do
+    
+    before(:each) do
+      @user = User.create(@attr)
+      @mp1 = Factory(:bloc, :user => @user, :created_at => 1.day.ago)
+      @mp2 = Factory(:bloc, :user => @user, :created_at => 1.hour.ago)
+    end  
+    
+    it "should have a blocs attribute" do
+      @user.should respond_to(:blocs)
+    end  
+    
+    it "should have the right blocs in the right order" do
+      @user.blocs.should == [@mp2, @mp1]
+    end  
+    
+    it "should destroy associated blocs" do
+      @user.destroy
+      [@mp1, @mp2].each do |bloc|
+        lambda do
+          Bloc.find_by_id(bloc)
+        end.should raise_error(ActiveRecord::RecordNotFound)  
+      end  
+    end  
+  end  
+  
 end
 
