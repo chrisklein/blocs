@@ -17,6 +17,13 @@
 				<%= gravatar_for @user %>
 				<%= @user.name %>
 			</h1>
+			
+			<% if @user.blocs.any? %>
+				<table class="blocs" summary="User blocs">
+					<% render @blocs %>
+				</table>	
+			<% end %>
+			
 		</td>
 		<td class="sidebar round">
 			<strong>Name</strong> <%= @user.name %><br />

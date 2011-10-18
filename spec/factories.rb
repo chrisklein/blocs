@@ -10,6 +10,6 @@ Factory.sequence :email do |n|
 end
 
 Factory.define :bloc do |bloc|
-  bloc.content "Foo bar"
+  bloc.content "Foo bar" 
   bloc.association :user
 end  

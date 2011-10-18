@@ -189,8 +189,8 @@ describe User do
     
     before(:each) do
       @user = User.create(@attr)
-      @mp1 = Factory(:bloc, :user => @user, :created_at => 1.day.ago)
-      @mp2 = Factory(:bloc, :user => @user, :created_at => 1.hour.ago)
+      @bloc1 = Factory(:bloc, :user => @user, :created_at => 1.day.ago)
+      @bloc2 = Factory(:bloc, :user => @user, :created_at => 1.hour.ago)
     end  
     
     it "should have a blocs attribute" do
@@ -198,15 +198,13 @@ describe User do
     end  
     
     it "should have the right blocs in the right order" do
-      @user.blocs.should == [@mp2, @mp1]
+      @user.blocs.should == [@bloc2, @bloc1]
     end  
     
     it "should destroy associated blocs" do
       @user.destroy
-      [@mp1, @mp2].each do |bloc|
-        lambda do
-          Bloc.find_by_id(bloc)
-        end.should raise_error(ActiveRecord::RecordNotFound)  
+      [@bloc1, @bloc2].each do |bloc|
+        Bloc.find_by_id(bloc.id).should be_nil
       end  
     end  
   end  
