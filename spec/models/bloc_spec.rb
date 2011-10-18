@@ -28,4 +28,17 @@ describe Bloc do
     
   end  
   
+  describe "validations" do
+    it "should have a user id" do
+      Bloc.new(@attr).should_not be_valid
+    end  
+    
+    it "should require nonblank content" do
+      @user.blocs.build(:content => "  ").should_not be_valid
+    end  
+    
+    it "should reject long content" do
+      @user.blocs.build(:content => "a" * 241).should_not be_valid
+    end
+  end  
 end
