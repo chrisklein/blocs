@@ -1,9 +1,8 @@
 GIT
-  remote: git://github.com/jeremyolliver/annotate_models.git
-  revision: 4d57e4fe6360125f17886168120a48091a268e45
-  branch: rake_compatibility
+  remote: git://github.com/ctran/annotate_models.git
+  revision: cfeec96c9ca0fa5035b10be3d73e798cc4fc52f7
   specs:
-    annotate (2.4.0)
+    annotate (2.4.1.beta1)
 
 GEM
   remote: http://rubygems.org/
@@ -138,7 +137,7 @@ GEM
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
-    will_paginate (3.0.pre2)
+    will_paginate (3.0.2)
 
 PLATFORMS
   ruby
@@ -158,4 +157,4 @@ DEPENDENCIES
   turn
   uglifier (>= 1.0.3)
   webrat (= 0.7.1)
-  will_paginate (= 3.0.pre2)
+  will_paginate (= 3.0.2)

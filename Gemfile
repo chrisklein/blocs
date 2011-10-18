@@ -7,7 +7,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.1'
 gem 'sqlite3'
 gem 'gravatar_image_tag', '1.0.0.pre2'
-gem 'will_paginate', '3.0.pre2'
+gem 'will_paginate', '3.0.2'
 gem 'jquery-rails'
 gem "haml"
 # gem "rake-compiler", "~> 0.7.9"
@@ -25,7 +25,7 @@ end
 
 group :development do
   gem 'rspec-rails', '2.6.1'
-  gem 'annotate', :git => 'git://github.com/jeremyolliver/annotate_models.git', :branch => 'rake_compatibility'
+  gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'faker', '0.3.1', :require => false
 end
 
