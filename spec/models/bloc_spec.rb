@@ -29,6 +29,7 @@ describe Bloc do
   end  
   
   describe "validations" do
+    
     it "should have a user id" do
       Bloc.new(@attr).should_not be_valid
     end  
@@ -39,6 +40,17 @@ describe Bloc do
     
     it "should reject long content" do
       @user.blocs.build(:content => "a" * 241).should_not be_valid
+    end
+  end
+  
+  describe "blocpost associations" do
+
+    before(:each) do
+      @bloc = Bloc.create(@attr)
+    end
+
+    it "should have a blocposts attribute" do
+      @bloc.should respond_to(:blocposts)
     end
   end  
 end

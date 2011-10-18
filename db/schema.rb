@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111017232853) do
+ActiveRecord::Schema.define(:version => 20111018054158) do
+
+  create_table "blocposts", :force => true do |t|
+    t.string   "content"
+    t.integer  "user_id"
+    t.integer  "bloc_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "blocposts", ["bloc_id"], :name => "index_blocposts_on_bloc_id"
+  add_index "blocposts", ["created_at"], :name => "index_blocposts_on_created_at"
 
   create_table "blocs", :force => true do |t|
     t.string   "content"

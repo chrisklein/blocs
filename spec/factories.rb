@@ -13,3 +13,8 @@ Factory.define :bloc do |bloc|
   bloc.content "Foo bar" 
   bloc.association :user
 end  
+
+Factory.define :blocpost do |blocpost|
+  blocpost.content "Post foo bar"
+  blocpost.association :bloc
+end  

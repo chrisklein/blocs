@@ -7,5 +7,6 @@ class CreateBlocs < ActiveRecord::Migration
       t.timestamps
     end
     add_index :blocs, :user_id
+    add_index :blocs, :created_at
   end
 end
