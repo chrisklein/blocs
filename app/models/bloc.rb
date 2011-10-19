@@ -8,4 +8,8 @@ class Bloc < ActiveRecord::Base
   validates :user_id, :presence => true
   
   default_scope :order => ' blocs.created_at DESC'
+  
+  def to_json(options = {})
+    super(options.merge(:only => [ :id, :content, :created_at, :user_id ]))
+  end  
 end
