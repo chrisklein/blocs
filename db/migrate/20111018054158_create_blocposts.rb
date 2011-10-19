@@ -7,6 +7,7 @@ class CreateBlocposts < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :blocposts, :user_id
     add_index :blocposts, :bloc_id
     add_index :blocposts, :created_at
   end

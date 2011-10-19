@@ -16,5 +16,6 @@ end
 
 Factory.define :blocpost do |blocpost|
   blocpost.content "Post foo bar"
+  blocpost.association :user
   blocpost.association :bloc
 end  

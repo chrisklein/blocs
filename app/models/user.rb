@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   
   has_many :blocs, :dependent => :destroy
   
+  has_many :blocposts
+  
   email_regex = /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i
   
   validates :name,     :presence     => true,

@@ -209,5 +209,37 @@ describe User do
     end  
   end  
   
+  describe "blocpost associations" do
+    
+    before(:each) do
+      @user1 = Factory(:user)
+      @user2 = User.create(@attr)
+      @bloc_attr = { :content => "bloc" }
+      @blocpost_attr = { :content => "bloc post" }
+      @bloc = @user1.blocs.create!(@bloc_attr)
+      @blocpost1 = @user1.blocposts.create!(:content => "first blocpost", :bloc_id => @bloc.id)
+    end  
+    
+    it "should have an intial user AND bloc attribute" do
+      @bloc.should respond_to(:user)
+      @blocpost1.should respond_to(:user)
+      @blocpost1.should respond_to(:bloc)
+    end  
+    
+    it "should have the right associated intitial user and bloc" do
+      @blocpost1.user_id.should == @user1.id
+      @blocpost1.user.should == @user1
+      @blocpost1.bloc_id.should == @bloc.id
+      @blocpost1.bloc.should == @bloc
+    end  
+    
+    it "should allow for another blocpost to be added to an existing bloc" do
+      @blocpost2 = @user2.blocposts.create!(:content=> "second blocpost", :bloc_id => @bloc.id)
+      @blocpost2.user_id.should == @user2.id
+      @blocpost2.user.should == @user2
+      @blocpost2.bloc_id.should == @bloc.id
+      @blocpost2.bloc.should == @bloc
+    end  
+  end  
 end
 

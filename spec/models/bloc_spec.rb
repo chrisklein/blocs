@@ -47,10 +47,21 @@ describe Bloc do
 
     before(:each) do
       @bloc = Bloc.create(@attr)
+      @responder = User.create(:name => "Example User", :email => "user@example.com", 
+                               :password => "foobar", :password_confirmation => "foobar")
+      @blocpost1 = @user.blocposts.create!(:content => "blocpost 1", :bloc_id => @bloc.id)
+      @blocpost2 = @responder.blocposts.create!(:content => "blocpost 2", :bloc_id => @bloc.id)
+      @blocpost3 = @user.blocposts.create!(:content => "blocpost 3", :bloc_id => @bloc.id)
     end
 
     it "should have a blocposts attribute" do
       @bloc.should respond_to(:blocposts)
     end
+    
+    it "should be assoicated with all blocposts" do
+      [@blocpost1, @blocpost2, @blocpost3].each do |blocpost|
+        Blocpost.find_by_id(blocpost.id).bloc_id.should == @bloc.id
+      end
+    end  
   end  
 end
