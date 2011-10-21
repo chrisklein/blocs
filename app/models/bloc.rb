@@ -1,6 +1,8 @@
 class Bloc < ActiveRecord::Base
   attr_accessible :content
   
+  self.include_root_in_json = false
+  
   belongs_to :user
   has_many :blocposts
   

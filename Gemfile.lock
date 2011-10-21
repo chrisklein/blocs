@@ -70,6 +70,9 @@ GEM
     multi_json (1.0.3)
     nokogiri (1.5.0)
     polyglot (0.3.2)
+    rabl (0.5.0)
+      activesupport (>= 2.3.14)
+      multi_json (~> 1.0.3)
     rack (1.3.4)
     rack-cache (1.1)
       rack (>= 0.4)
@@ -150,6 +153,7 @@ DEPENDENCIES
   gravatar_image_tag (= 1.0.0.pre2)
   haml
   jquery-rails
+  rabl
   rails (= 3.1.1)
   rspec-rails (= 2.6.1)
   sass-rails (~> 3.1.4)

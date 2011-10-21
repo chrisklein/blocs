@@ -10,6 +10,7 @@ gem 'gravatar_image_tag', '1.0.0.pre2'
 gem 'will_paginate', '3.0.2'
 gem 'jquery-rails'
 gem "haml"
+gem 'rabl'
 # gem "json", "~> 1.6.1"
 # gem "rake-compiler", "~> 0.7.9"
 

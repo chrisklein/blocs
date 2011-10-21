@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
                        
   
   before_save :encrypt_password
+  
+  def as_json(options = {})
+    super(options.merge( :includ => { :blocs => { :include => :blocposts }}))
+  end  
 
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)

@@ -1,20 +1,21 @@
 class BlocsController < ApplicationController
+  
+  respond_to :json, :xml
   def index
-    render :json => Bloc.all
+    @bloc = Bloc.all
   end
   
   def show
-    render :json => Bloc.find(params[:id])
+    @bloc = Bloc.find(params[:id])
   end
   
   def create
-    bloc = Bloc.create! params
-    render :json => bloc
+     bloc = Bloc.create! params
   end
   
   def update
     bloc = Bloc.find(params[:id])
     bloc.update_attributes! params
-    render :json => bloc
   end
+  
 end  

@@ -18,5 +18,14 @@ namespace :db do
                    :password => password,
                    :password_confirmation => password)
     end
+    
+    10.times do
+      User.all(:limit=> 6).each do |user|
+        @bloc = user.blocs.create!(:content => "bloc")
+        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
+        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
+      end  
+    end
+      
   end
 end
