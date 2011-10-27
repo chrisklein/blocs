@@ -11,40 +11,35 @@
 <% end %>
 
 <div class="container">
-	<div class="seven columns">
-	</div>
-	<div class="four columns offset-by-one">
-	</div>		
-	
-</div>	
-
-<table class="profile" summary="Profile info">
-	<tr>
-		<td class="main">
+	<div class="row">
+		<div class="seven columns">
 			<h1>
 				<%= gravatar_for @user %>
 				<%= @user.name %>
 			</h1>
+		</div>
+		<div class="four columns offset-by-one">
+			<strong>Name</strong> <%= @user.name %><br />
+			<strong>URL</strong> <%= link_to user_path(@user), @user %>
+		</div>
+		<hr>
+	</div>	
+	<div id="user-workspace-container" class="row">
+		<div id="blocs-sidebar-container" class="two columns">
+			
+		</div>
+		<div id="blocs-detail-container" class="ten columns">
 			
 			<% if @user.blocs.any? %>
 				<table class="blocs" summary="User blocs">
 					<% render @blocs %>
 				</table>	
 			<% end %>
-			
-		</td>
-		<td class="sidebar round">
-			<strong>Name</strong> <%= @user.name %><br />
-			<strong>URL</strong> <%= link_to user_path(@user), @user %>
-		</td>		
-	</tr>	
-</table>
-<hr>
-<div id="user-workspace-container">
-	<div id="blocs-sidebar-container">
-	</div>
-	<div id="blocs-detail-container"></div>
-</div>
+		</div>		
+	</div>	
+</div>	
+
+
 
 <script id="blocTmpl" type="text/x-jquery-tmpl">
 		<label>Test Label</label>
