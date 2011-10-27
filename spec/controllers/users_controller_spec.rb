@@ -70,6 +70,12 @@ describe UsersController do
      
     before(:each) do
       @user = Factory(:user)
+      @user1 = User.create(:name => "Example User 1", :email => "user1@blocs.com", :password => "foobar", :password_confirmation => "foobar")
+      @user2 = User.create(:name => "Example User 2", :email => "user2@blocs.com", :password => "foobar", :password_confirmation => "foobar")
+      @bloc_attr = { :content => "bloc" }
+      @blocpost_attr = { :content => "bloc post" }
+      @bloc = @user1.blocs.create!(@bloc_attr)
+      @blocpost1 = @user1.blocposts.create!(:content => "first blocpost", :bloc_id => @bloc.id)
     end  
   
     it "should be succesful" do
@@ -99,7 +105,7 @@ describe UsersController do
     
     it "should have the right url for the user" do
       get :show, :id => @user
-      response.should have_selector('td>a', :content => user_path(@user),
+      response.should have_selector('div > a', :content => user_path(@user),
                                             :href    => user_path(@user))
     end  
     
@@ -107,8 +113,12 @@ describe UsersController do
       bloc1 = Factory(:bloc, :user => @user, :content => "Foo bar") 
       bloc2 = Factory(:bloc, :user => @user, :content => "Bar baz") 
       get :show, :id => @user
-      response.should have_selector("span.content", :content => bloc1.content)
-      response.should have_selector("span.content", :content => bloc2.content)
+      response.should have_selector(".content", :content => bloc1.content)
+      response.should have_selector(".content", :content => bloc2.content)
+    end  
+    
+    it "should show blocposts within blocs" do
+      
     end  
   end  
 

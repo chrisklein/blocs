@@ -24,6 +24,8 @@ namespace :db do
         @bloc = user.blocs.create!(:content => "bloc")
         user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
         user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
+        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
+        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
       end  
     end
       
