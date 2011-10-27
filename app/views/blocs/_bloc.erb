@@ -6,10 +6,15 @@
 				<% bloc.blocposts.each do |blocpost| %>
 					<tr>
 						<td class="blocpost">
-							<span class="content"><%= blocpost.content %></span>
-							<span class="timestamp">
-								Posted <%= time_ago_in_words(blocpost.created_at) %> ago.
-							</span>
+							<div class="row">
+								<span class="content"><%= blocpost.content %></span>
+							</div>	
+							<div class="row">		
+								<strong><%= User.find_by_id(blocpost.user_id).name %></strong>
+								<span class="timestamp">
+									Posted <%= time_ago_in_words(blocpost.created_at) %> ago.
+								</span>
+							</div>
 						</td>	
 					</tr>	
 				<% end %>

@@ -22,10 +22,12 @@ namespace :db do
     10.times do
       User.all(:limit=> 6).each do |user|
         @bloc = user.blocs.create!(:content => "bloc")
-        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
-        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
-        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
-        user.blocposts.create!(:content => Faker::Lorem.sentence(5), :bloc_id => @bloc.id)
+        user1 = User.find_by_id( Random.new.rand(2..30) )
+        user2 = User.find_by_id( Random.new.rand(10..40) )
+        user.blocposts.create!(:content => Faker::Lorem.sentence(15), :bloc_id => @bloc.id)
+        user1.blocposts.create!(:content => Faker::Lorem.sentence(7), :bloc_id => @bloc.id)
+        user2.blocposts.create!(:content => Faker::Lorem.sentence(10), :bloc_id => @bloc.id)
+        user1.blocposts.create!(:content => Faker::Lorem.sentence(12), :bloc_id => @bloc.id)
       end  
     end
       
