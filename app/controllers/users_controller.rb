@@ -54,11 +54,7 @@ class UsersController < ApplicationController
     redirect_to users_path, :flash => { :success => "User '#{destroyed_user.name}' has been removed."}
   end
     
-  private
-    
-    def authenticate
-      deny_access unless signed_in?
-    end  
+  private 
     
     def correct_user
       # Because user is assinged here, I'm removing from the actions.

@@ -1,5 +1,24 @@
-<h1>Sign up</h1>
-<p>Welcome to the Blocs project. </p>
-<p>Find out how Blocs can help you take control of your schedule.</p>		
+<% if signed_in? %>
 
-<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+	<div class="container">
+		<div class="row">
+			<div class="seven columns">
+				<h1 class="micropost">New event</h1>
+        		<%= render 'shared/bloc_form' %>
+				<%= render 'shared/feed' %>
+			</div>	
+			<div class="four columns offset-by-one">
+				<%= render 'shared/user_info' %>
+			</div>
+		</div>	
+	</div>	
+
+<% else %>
+
+	<h1>Sign up</h1>
+	<p>Welcome to the Blocs project. </p>
+	<p>Find out how Blocs can help you take control of your schedule.</p>		
+
+	<%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
+
+<% end %>

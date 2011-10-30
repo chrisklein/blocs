@@ -20,5 +20,12 @@
 				<% end %>
 			</table>	
 		<% end %>
+		<% if current_user?(bloc.user) %>
+	  		<td>
+	    		<%= link_to "delete", bloc, :method => :delete,
+	                                     	:confirm => "You sure?",
+	                                     	:title => bloc.content %>
+	  		</td>
+	  <% end %>
 	</td>	
 </tr>
