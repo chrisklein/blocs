@@ -2,19 +2,30 @@ Blocs::Application.routes.draw do
   
   resources :users
   resources :sessions, :only => [:new, :create, :destroy] 
-  resources :blocs, :only => [:create, :destroy]
+  resources :blocs, :only => [:create, :destroy, :show, :index]
   resources :blocposts
 
   root :to => "pages#home"
   
-  match '/contact',        :to => 'pages#contact'
-  match '/about',          :to => 'pages#about'
-  match '/help',           :to => 'pages#help'
-  match '/signup',         :to => 'users#new'
-  match '/signin',         :to => 'sessions#new'
-  match '/signout',        :to => 'sessions#destroy'
-  match '/test_blocposts', :to =>'blocposts#test_blocposts'
+  match '/contact',             :to => 'pages#contact'
+  match '/about',               :to => 'pages#about'
+  match '/help',                :to => 'pages#help'
+  match '/signup',              :to => 'users#new'
+  match '/signin',              :to => 'sessions#new'
+  match '/signout',             :to => 'sessions#destroy'
+  match '/test_blocposts',      :to => 'blocposts#test_blocposts'
+  match 'users/api/full_index', :to => 'users#full_index' #temporary because of paging
 
+  resources :users do
+     member do
+       get 'blocs'
+     end  
+   end  
+  
+  resources :users do
+    resources :blocs
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

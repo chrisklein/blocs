@@ -11,6 +11,8 @@ gem 'will_paginate', '3.0.2'
 gem 'jquery-rails'
 gem "haml"
 gem 'rabl'
+gem 'draper'
+gem 'mustache'
 # gem "json", "~> 1.6.1"
 # gem "rake-compiler", "~> 0.7.9"
 

@@ -2,7 +2,7 @@ class BlocpostsController < ApplicationController
   
   respond_to :json, :xml
   def index
-    @blocpost = Blocpost.all
+    @blocposts = Blocpost.all
   end
   
   def show

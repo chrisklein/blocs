@@ -131,15 +131,10 @@ class BlocInfo extends Backbone.Model
 
 class BlocInfos extends Backbone.Collection
 	model: BlocInfo	
+	url: '/users/1/blocs'
+	
 
-
-generate_bloc_infos = ->
-	User.BlocInfos = new BlocInfos([ 
-		{ 'test' : 'test' }
-		{ 'best' : 'best' } 
-		])
-
-class BlocCalSignupView extends Backbone.View
+class CalSignupView extends Backbone.View
 	tagName: 'div'
 	className: 'signup-wrapper'
 	
@@ -244,15 +239,17 @@ class User.EditController extends Backbone.Router
 class User.ShowController extends Backbone.Router
 	
 	initialize: ->
-		generate_google_infos()
-		@blocsView = null
-		@sidebarWrapper = $('#blocs-sidebar-container')
 		
-		cal_info = User.GoogleInfos.find (info)->
-			return info.get("service") == "Calendar" 
+		@blocsView = null
+		this.render_blocs()
+		
+		# Not doing any generation of google infos right now !!!!!
+		#  generate_google_infos()
+		# cal_info = User.GoogleInfos.find (info)->
+		#	return info.get("service") == "Calendar" 
 		
 		# checking login token for calendar service.
-		if !_.isEmpty cal_info.token then this.login_to_service()
+		# if !_.isEmpty cal_info.token then this.login_to_service()
 		
 	routes:
 		"" : "root"
@@ -261,13 +258,20 @@ class User.ShowController extends Backbone.Router
 		# code	
 	
 	render_blocs: ->
-		generate_bloc_infos()
+		User.BlocInfos = new BlocInfos()
+		User.BlocInfos.fetch
+			success: -> 
+		    	User.BlocInfos.get(71).destroy()
+		    
+			error: ->
+		        alert('error')
+		           
+		
 		blocsView = new BlocViews
 			child_view: _BlocView
 			collection: User.BlocInfos
-			wrapper: $('#blocs-sidebar-container')
+			wrapper: $('#blocs-container')
 			tagName: 'div'
-		this.sidebarWrapper.empty()
 		blocsView.render()
 	
 	render_blocs_cal_signup: ->

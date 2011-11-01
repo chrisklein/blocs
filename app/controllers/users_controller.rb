@@ -9,6 +9,11 @@ class UsersController < ApplicationController
     @title = "All users"
   end
   
+  #temporary because of paging
+  def full_index
+    @users = User.all
+  end  
+  
   def show
     @user = User.find(params[:id])
     @title = @user.name
@@ -48,6 +53,11 @@ class UsersController < ApplicationController
       render 'edit'
     end  
   end
+  
+  def blocs
+    @user = User.find(params[:id])
+    @blocs = @user.blocs
+  end  
  
   def destroy
     destroyed_user = User.find(params[:id]).destroy

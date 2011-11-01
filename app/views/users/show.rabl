@@ -1,5 +1,9 @@
+# app/views/users/show.rabl
+
 object @user
 
-attributes :name, :email
+child :blocs do
+	extends "blocs/show"
+end
 
-attributes :email => :email_address
+

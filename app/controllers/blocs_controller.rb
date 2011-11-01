@@ -4,7 +4,7 @@ class BlocsController < ApplicationController
   
   respond_to :json, :xml
   def index
-    @bloc = Bloc.all
+    @blocs = Bloc.all
   end
   
   def show
