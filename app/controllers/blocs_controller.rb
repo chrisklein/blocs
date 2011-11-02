@@ -32,6 +32,11 @@ class BlocsController < ApplicationController
     @bloc.destroy
     redirect_back_or root_path
   end
+  
+  def blocposts
+    @bloc = Bloc.find(params[:id])
+    @blocposts = @bloc.blocposts
+  end  
 
   private
 

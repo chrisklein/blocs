@@ -26,6 +26,26 @@ Blocs::Application.routes.draw do
     resources :blocs
   end
   
+  resources :users do
+     member do
+       get 'blocposts'
+     end  
+   end  
+  
+  resources :users do
+    resources :blocposts
+  end
+  
+  resources :blocs do
+     member do
+       get 'blocposts'
+     end  
+   end  
+  
+  resources :blocs do
+    resources :blocposts
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

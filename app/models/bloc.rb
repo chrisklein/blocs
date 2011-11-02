@@ -4,7 +4,8 @@ class Bloc < ActiveRecord::Base
   self.include_root_in_json = false
   
   belongs_to :user
-  has_many :blocposts
+  has_many :blocposts, :dependent => :destroy
+  has_one :event
   
   validates :content, :presence => true, :length => { :maximum => 240}
   validates :user_id, :presence => true

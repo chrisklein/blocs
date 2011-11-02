@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111018054158) do
+ActiveRecord::Schema.define(:version => 20111102024304) do
 
   create_table "blocposts", :force => true do |t|
     t.string   "content"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(:version => 20111018054158) do
   end
 
   add_index "blocs", ["user_id"], :name => "index_blocs_on_user_id"
+
+  create_table "events", :force => true do |t|
+    t.integer  "bloc_id"
+    t.string   "address"
+    t.string   "phone_number"
+    t.string   "place"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["bloc_id", "created_at"], :name => "index_events_on_bloc_id_and_created_at"
 
   create_table "users", :force => true do |t|
     t.string   "name"

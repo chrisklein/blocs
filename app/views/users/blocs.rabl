@@ -1,4 +1,4 @@
-# app/views/users/blocs.json.rabl
+# app/views/users/blocs.rabl
 
 collection @blocs
 

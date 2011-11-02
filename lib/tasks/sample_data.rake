@@ -28,6 +28,7 @@ namespace :db do
         user1.blocposts.create!(:content => Faker::Lorem.sentence(7), :bloc_id => @bloc.id)
         user2.blocposts.create!(:content => Faker::Lorem.sentence(10), :bloc_id => @bloc.id)
         user1.blocposts.create!(:content => Faker::Lorem.sentence(12), :bloc_id => @bloc.id)
+        @bloc.create_event!(:phone_number => '3035245516', :bloc_id => @bloc.id, :place => 'Crocs')
       end  
     end
       

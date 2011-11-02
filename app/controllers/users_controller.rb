@@ -57,7 +57,12 @@ class UsersController < ApplicationController
   def blocs
     @user = User.find(params[:id])
     @blocs = @user.blocs
-  end  
+  end 
+  
+  def blocposts
+    @user = User.find(params[:id])
+    @blocposts = @user.blocposts
+  end 
  
   def destroy
     destroyed_user = User.find(params[:id]).destroy
