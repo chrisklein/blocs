@@ -170,44 +170,51 @@ class CalSignupView extends Backbone.View
 		
 class _BlocView extends Backbone.View	
 	tagName: 'div'
+	className: 'ten columns bloc'
 	
-	render: ->
-		$(this.el).empty()
-		
-		template = $.template('#blocTmpl')
-					
-		$.tmpl(template, this.model).appendTo(this.el)			
-		
+	initialize: ->
+		#alert this.model.get('content') 
+	
+	render: ->		
+		bloc = {
+			'id': 1
+			"blocposts": [
+				{'content': 'test content'},
+				{'content': 'test content2'},
+			 ]
+		}
+		template = "{{#blocposts}} <b> {{content}} </b> {{/blocposts}}";
+		#alert( Mustache.to_html(template, this.model.toJSON()) )
+		#alert( Mustache.to_html($('#bloc_template').html(), this.model.toJSON) )
+		$(this.el).append Mustache.to_html($('#bloc_template').html(), this.model.toJSON())
+		#$(this.el).append '<div>Mustache.to_html(template, this.model.toJSON)</div>'
 		return this
 				
 		
 class BlocViews extends Backbone.View
-	className: 'blocs-syndicate-container'
+	el: '#blocs-container'
 		
 	initialize: (options)->
 		this_view = this
-		@wrapper = options.wrapper
 		@child_view = options.child_view
 		@bloc_views = []
 		
 		this.options.collection.each (bloc)-> #bloc is the model being passed around
 			this_view.bloc_views.push( new this_view.child_view({
 				model: bloc
-				className: "should-be-associated-with-event"
 			}))	
 			
 	render: =>
 		$(this.el)
 			.detach()
-			.fadeOut 'fast', =>
+			#.fadeOut 'fast', =>
+				
+			$(this.el).empty()
+			this.generate_el_content()
 			
-				$(this.el).empty()
-				
-				this.generate_el_content()
-				
-				$(this.el)
-					.appendTo(this.wrapper)
-					.fadeIn('fast')
+			$(this.el)
+				.appendTo('#user-workspace-container')
+				.fadeIn('fast')
 				
 		return this
 	
@@ -261,19 +268,14 @@ class User.ShowController extends Backbone.Router
 		User.BlocInfos = new BlocInfos()
 		User.BlocInfos.fetch
 			success: -> 
-		    	User.BlocInfos.get(71).destroy()
+				blocsView = new BlocViews
+					child_view: _BlocView
+					collection: User.BlocInfos
+				blocsView.render()
 		    
 			error: ->
 		        alert('error')
-		           
-		
-		blocsView = new BlocViews
-			child_view: _BlocView
-			collection: User.BlocInfos
-			wrapper: $('#blocs-container')
-			tagName: 'div'
-		blocsView.render()
-	
+		           	
 	render_blocs_cal_signup: ->
 		blocCalSignup = new BlocCalSignupView
 			wrapper: $('#blocs-sidebar-container')

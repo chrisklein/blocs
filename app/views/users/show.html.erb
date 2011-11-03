@@ -29,18 +29,12 @@
 			
 		</div>
 		<div id="blocs-container" class="ten columns">
-			
-			<% if @user.blocs.any? %>
-				<table class="blocs" summary="User blocs">
-					<%= render @blocs %>
-				</table>	
-			<% end %>
-		</div>		
+
+		</div>
+		<script type="text/html" id="bloc_template" >
+			<%= render "bloc" %>
+		</script>		
 	</div>	
 </div>	
 
 
-
-<script id="blocTmpl" type="text/x-jquery-tmpl">
-		<label>Test Label</label>
-</script>
